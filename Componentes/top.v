@@ -20,6 +20,7 @@
     8) multiplexor
     9) ALU
     10) memoria_de_datos
+    11) sumador
 */
 
 /* flujo:
@@ -54,4 +55,7 @@ ALU --> Entra el registro 1, el registro 2 o el inmeadiato, y la operación a re
         resultado --> memoria_de_datos
 memoria_de_datos --> Recibe el resultado de la ALU (a 'address'), 'memWrite' para saber si hay que escribir en 
                      memoria, el reloj, y el dato a escribir (de ser necesario, en 'wd') en 'address'.
+                     --> sumador
+sumador --> Recibe el PC actual, el inmediato, la señal 'regWrite' para ver si escribir y el tipo de 
+            instrucción, para si aumentarle al PC. Devuelve el PC proximo
 */
