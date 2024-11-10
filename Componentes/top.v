@@ -52,5 +52,6 @@ multiplexor --> Entra el registro 2, el inmediato, y el selectos, para saber que
                 ALU --> ALU
 ALU --> Entra el registro 1, el registro 2 o el inmeadiato, y la operación a realizar, y nos devuelve el
         resultado --> memoria_de_datos
-memoria_de_datos --> Recibe el resultado de la ALU, 'memWrite' para saber si hay que escribir en memoria
+memoria_de_datos --> Recibe el resultado de la ALU (a 'address'), 'memWrite' para saber si hay que escribir en 
+                     memoria, el reloj, y el dato a escribir (de ser necesario, en 'wd') en 'address'.
 */
