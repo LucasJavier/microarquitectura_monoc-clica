@@ -1,48 +1,51 @@
 `include "../Componentes/decodificador_alu.v"
 `include "../Componentes/decodificador_principal.v"
-`include "../Componentes/descomponer_instruccion.v"
 
 module UC(
-    input [6:0] op_UC,
-    input [2:0] f3_UC,
-    input f7_UC,
-    input zero,
-    output reg [9:0] salUC
+    input [31:0] instr_UC,
+    output branch_UC, regWrite_UC, memWrite_UC, aluSrc_UC,
+    output [1:0] resSrc_UC, inmSrc_UC,
+    output [2:0] aluControl_UC, type_UC
 );
 
-    wire pcSrc_UC; // Nos indica de que fuente viene el contador del programa (PC)
-    wire [1:0] resSrc_UC;
-    wire memWrite_UC;
-    wire [1:0] aluOP_UC;
-    wire aluSrc_UC;
-    wire [1:0] inmSrc_UC;
-    wire regWrite_UC;
-    wire [2:0] aluControl_UC;
-
-    mainDeco mainDecoder(
-        .op(op_UC), 
-        .branch(pcSrc_UC),
-        .resSrc(resSrc_UC), 
-        .memWrite(memWrite_UC),
-        .aluSrc(aluSrc_UC), 
-        .inmSrc(inmSrc_UC), 
-        .regWrite(regWrite_UC), 
-        .aluOp(aluOp_UC)
+    // Instancia decodificador principal
+    wire branch_UC_aux; 
+    wire memWrite_UC_aux; 
+    wire aluSrc_UC_aux; 
+    wire regWrite_UC_aux; 
+    wire resSrc_UC_aux; 
+    wire [1:0] inmSrc_UC_aux; 
+    wire [1:0] aluOp_UC_aux; 
+    wire [2:0] type_UC_aux; 
+    wire [6:0] cod_op = instr_UC[6:0];
+    mainDeco decodificadorInstruccion(
+        .op(cod_op),
+        .branch(branch_UC_aux), 
+        .memWrite(memWrite_UC_aux), 
+        .aluSrc(aluSrc_UC_aux),
+        .regWrite(regWrite_UC_aux),  
+        .resSrc(resSrc_UC_aux),
+        .inmSrc(inmSrc_UC_aux), 
+        .aluOp(aluOp_UC_aux),
+        .type_MD(type_UC_aux)
     );
 
-    // Instancia del Decodificador de ALU
-    aluDeco aluDecoder(
-        .op(op_UC), 
-        .f3(f3_UC), 
-        .f7(f7_UC), 
-        .aluOp(aluOp_UC), 
-        .aluControl(aluControl_UC)
+    assign branch_UC = branch_UC_aux;
+    assign regWrite_UC = regWrite_UC_aux;
+    assign memWrite_UC = memWrite_UC_aux;
+    assign aluSrc_UC = aluSrc_UC_aux;
+    assign resSrc_UC = resSrc_UC_aux;
+    assign inmSrc_UC = inmSrc_UC_aux;
+    assign aluControl_UC = aluControl_UC_aux;
+    assign type_UC = type_UC_aux;
+
+    // Instancia del decodificador de ALU
+    aluDeco decodificadorAlu(
+        .op(instr_UC[5]), // Chequear si 4 o 5
+        .f7(instr_UC[29]),
+        .f3(instr_UC[14:12]),
+        .aluOp(aluOp_UC_aux),
+        .aluControl(aluControl_UC_aux)
     );
 
-    // Lógica combinacional para generar señales de control
-    always @(*) begin
-        // Lógica para establecer valores de las señales de control en función de op, f3, y f7
-        // (por ejemplo, en función del tipo de instrucción se configuran los flags de control)
-        // Agregar lógica aquí según el diagrama de control del RISC-V.
-    end
 endmodule
