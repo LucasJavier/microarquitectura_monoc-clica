@@ -8,6 +8,15 @@ module DM(
 
 reg [31:0] data_memory [31:0];
 
+integer i;
+
+initial
+begin
+    for(i = 0;i<32;i=i+1) begin
+        data_memory[i] <= 32'h00000000;
+    end
+end
+
 always @(posedge clk) begin
     if (we)
         data_memory[address] <= wd;

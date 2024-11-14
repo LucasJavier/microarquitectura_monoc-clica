@@ -8,7 +8,16 @@ module BR(
     output [31:0] rd1, rd2 // Linea que llevan los datos
 );
 
+
 reg [31:0] registers [31:0];
+
+integer i;
+
+initial begin
+    for(i = 0;i<32;i=i+1) begin
+        registers[i] <= 32'h00000000;
+    end
+end
 
 assign rd1 = registers[a1];
 assign rd2 = registers[a2];

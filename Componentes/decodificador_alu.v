@@ -7,6 +7,8 @@ module aluDeco(
 
 wire OP_F7 = {op,f7};
 
+initial aluControl = 3'b000;
+
 always @(*) begin
     case (aluOp)
         2'b00: aluControl = 3'b000; // Suma

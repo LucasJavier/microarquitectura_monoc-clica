@@ -17,7 +17,7 @@ module dataPath(
 );
 
     // Instancia del 1er multiplexor
-    wire branch_DT;
+    wire branch_DT, sel_DT;
     wire [31:0] mas_cuatro, mas_inmediato, salMux_DT;
     Mux2x1 multiplexorBranch(
         // Input
@@ -35,7 +35,7 @@ module dataPath(
         .PC(pc_DT),
         .op(salMux_DT),
         // Output
-        .res(direcion_pc)
+        .res(direccion_pc)
     );
 
     // Instancia del contador de programa
@@ -50,9 +50,10 @@ module dataPath(
 
     // Instancia de memoria de instrucciones
     wire [31:0] inst_DP;
+    wire [4:0] address_DP = pcOut_DT[6:2];
     IM memoriaInstruciones(
         // Input
-        .address(pcOut),
+        .address(address_DP),
         // Output
         .inst(inst_DP)
     );
@@ -70,7 +71,7 @@ module dataPath(
     );
 
     // Instancia para preparar los datos
-    wire [4:0] a1_RV, a2_RV, a3_RV;
+    wire [4:0] a1_DP, a2_DP, a3_DP;
     PD preparadorDatos(
         // Input
         .inst(inst_OUT),
@@ -132,10 +133,11 @@ module dataPath(
 
     // Instancia de la memoria de datos
     wire [31:0] wd3_mem_DP;
+    wire [4:0] address_DP_alu = res_ALU_DP[6:2];
     DM memoriaDatos(
         // Input
         .clk(clk_DP),
-        .address(res_ALU_DP),
+        .address(address_DP_alu),
         .wd(rd2_DP),
         .we(memWrite_DP),
         // Output

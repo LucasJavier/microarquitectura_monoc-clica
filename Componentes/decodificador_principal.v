@@ -10,9 +10,20 @@ module mainDeco(
     output reg [2:0] type_MD // Indica el tipo de instrucción
 );
 
+initial begin
+    branch = 0;
+    memWrite = 0; 
+    aluSrc = 0;
+    regWrite = 0;
+    resSrc = 0;
+    inmSrc = 0;
+    aluOp = 0;
+    type_MD = 0;
+end
+
 always @(*) begin
     case (op)
-        7'b0000011: begin // lw --> I-type_MD
+        7'b0000011: begin // lw --> I-type
             regWrite = 1;
             inmSrc = 2'b00;
             aluSrc = 1;
@@ -52,6 +63,16 @@ always @(*) begin
             branch = 1;
             aluOp = 2'b01;
             type_MD = 3'b011;
+        end
+        7'b0010011: begin // I-type
+            regWrite = 1;
+            inmSrc = 2'b00;
+            aluSrc = 1;
+            memWrite = 0;
+            resSrc = 1'b0;
+            branch = 0;
+            aluOp = 2'b10;
+            type_MD = 3'b000;
         end
         default: begin // J-type
             regWrite = 1; // (se escribe el valor de retorno del salto en el registro de destino).

@@ -4,6 +4,10 @@ module PD(
     output reg [4:0] a1, a2, a3
 );
 
+initial a1 = 5'b00000;
+initial a2 = 5'b00000;
+initial a3 = 5'b00000;
+
 always @(*) begin
    case(type_PD)
     3'b000: begin // Tipo-I

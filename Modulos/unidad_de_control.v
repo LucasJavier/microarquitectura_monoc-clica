@@ -19,7 +19,9 @@ module UC(
     wire [2:0] type_UC_aux; 
     wire [6:0] cod_op = instr_UC[6:0];
     mainDeco decodificadorInstruccion(
+        // Input
         .op(cod_op),
+        // Output
         .branch(branch_UC_aux), 
         .memWrite(memWrite_UC_aux), 
         .aluSrc(aluSrc_UC_aux),
@@ -36,15 +38,17 @@ module UC(
     assign aluSrc_UC = aluSrc_UC_aux;
     assign resSrc_UC = resSrc_UC_aux;
     assign inmSrc_UC = inmSrc_UC_aux;
-    assign aluControl_UC = aluControl_UC_aux;
     assign type_UC = type_UC_aux;
 
     // Instancia del decodificador de ALU
+    wire [2:0] aluControl_UC_aux;
     aluDeco decodificadorAlu(
+        // Input
         .op(instr_UC[5]), // Chequear si 4 o 5
         .f7(instr_UC[29]),
         .f3(instr_UC[14:12]),
         .aluOp(aluOp_UC_aux),
+        // Outpur
         .aluControl(aluControl_UC_aux)
     );
 
