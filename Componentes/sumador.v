@@ -3,8 +3,6 @@ module Adder(
     output [31:0] res // Resultado del calculo (direccion)
 ); // calcula direcciones
 
-initial res = 32'b0;
-
 assign res = PC + op;
 
 endmodule

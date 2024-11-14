@@ -1,7 +1,8 @@
 module ALU(
     input [31:0] srcA, srcB, // Operandos (registro y registro/inmediato)
     input [2:0] ALUControl, // Operacion a realizar
-    output reg [31:0] res // Resultado
+    output reg [31:0] res, // Resultado
+    output zero
 );
 
 always @(*) begin
@@ -14,5 +15,7 @@ always @(*) begin
         default: res = 32'b0;
     endcase
 end
+
+assign zero = (res == 32'b0); // zero es 1 cuando res es 0
 
 endmodule

@@ -10,39 +10,40 @@
 `include "../Componentes/banco_de_registros.v"
 
 module dataPath(
-    input clk_DP, branch_DP, aluSrc_DP, regWrite_DP, memWrite_DP,
+    input clk_DP, aluSrc_DP, regWrite_DP, memWrite_DP, reset_DP, pcSrc_DP,
     input [1:0] rscSrc_DP, inmSrc_DP,
     input [2:0] aluControl_DP, type_DP,
-    output [31:0] inst_OUT
+    output [31:0] inst_OUT,
+    output zero_OUT
 );
 
     // Instancia del 1er multiplexor
-    wire branch_DT, sel_DT;
-    wire [31:0] mas_cuatro, mas_inmediato, salMux_DT;
+    wire [31:0] salMux_DT;
     Mux2x1 multiplexorBranch(
         // Input
-        .e1(mas_cuatro),
-        .e2(mas_inmediato),
-        .sel(sel_DT),
+        .e1(32'd4), // +4
+        .e2(inm_DP), // Inmediato
+        .sel(pcSrc_DP), // Selector
         // Output
         .salMux(salMux_DT)
     );
 
     // Instancia del sumador
-    wire [31:0] pc_DT, direccion_pc;
+    wire [31:0] direccion_pc;
     Adder sumador(
         // Input
-        .PC(pc_DT),
-        .op(salMux_DT),
+        .PC(pcOut_DT), // PC
+        .op(salMux_DT), // + valor
         // Output
-        .res(direccion_pc)
+        .res(direccion_pc) // Direccion
     );
 
     // Instancia del contador de programa
     wire [31:0] pcOut_DT;
     PC programCounter(
         // Input
-        .clk(clk_DP), 
+        .clk(clk_DP),
+        .reset_PC(reset_DP), 
         .pcNext(direccion_pc), 
         // Output
         .pc(pcOut_DT)
@@ -104,6 +105,7 @@ module dataPath(
         .a3(a3_DP),
         .wd3(wd3_DP),
         .we(regWrite_DP),
+        .reset_BR(reset_DP),
         // Output
         .rd1(rd1_DP),
         .rd2(rd2_DP)
@@ -122,14 +124,18 @@ module dataPath(
 
     // Instancia de la ALU
     wire [31:0] res_ALU_DP;
+    wire zero_DP;
     ALU alu(
         // Input
         .srcA(rd1_DP),
         .srcB(op2_ALU_DP),
         .ALUControl(aluControl_DP),
         // Output
-        .res(res_ALU_DP)
+        .res(res_ALU_DP),
+        .zero(zero_DP)
     );
+
+    assign zero_OUT = zero_DP;
 
     // Instancia de la memoria de datos
     wire [31:0] wd3_mem_DP;
@@ -140,6 +146,7 @@ module dataPath(
         .address(address_DP_alu),
         .wd(rd2_DP),
         .we(memWrite_DP),
+        .reset(reset_DP),
         // Output
         .rd(wd3_mem_DP)
     );
