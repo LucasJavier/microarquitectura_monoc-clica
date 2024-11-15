@@ -2,8 +2,10 @@ module ALU(
     input [31:0] srcA, srcB, // Operandos (registro y registro/inmediato)
     input [2:0] ALUControl, // Operacion a realizar
     output reg [31:0] res, // Resultado
-    output zero
+    output reg zero
 );
+
+initial zero = 0;
 
 always @(*) begin
     case (ALUControl)
@@ -14,8 +16,8 @@ always @(*) begin
         3'b101: res = (srcA < srcB) ? 1 : 0; // SLT
         default: res = 32'b0;
     endcase
+    if(res==32'b0) zero = 1;
+    else zero = 0;
 end
-
-assign zero = (res == 32'b0); // zero es 1 cuando res es 0
 
 endmodule

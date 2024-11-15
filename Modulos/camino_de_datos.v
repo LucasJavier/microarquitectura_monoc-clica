@@ -48,6 +48,7 @@ module dataPath(
         // Output
         .pc(pcOut_DT)
     );
+    wire [31:0] pc_mas_cuatro = pcOut_DT + 32'd4;
 
     // Instancia de memoria de instrucciones
     wire [31:0] inst_DP;
@@ -89,7 +90,7 @@ module dataPath(
         // Input
         .e1(res_ALU_DP),
         .e2(wd3_mem_DP),
-        .pcNext(direccion_pc),
+        .pcNext(pc_mas_cuatro),
         .sel(rscSrc_DP),
         // Output
         .salMux(wd3_DP)

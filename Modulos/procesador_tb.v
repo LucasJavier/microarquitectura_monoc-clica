@@ -18,7 +18,7 @@ module rv32i_tb();
     // Generación del reloj
     initial begin
         clk_tb = 0;
-        forever #5 clk_tb = ~clk_tb; // Periodo de reloj de 10 ns
+        forever #1 clk_tb = ~clk_tb; // Periodo de reloj de 10 ns
     end
 
     integer i;
@@ -32,7 +32,7 @@ module rv32i_tb();
 
 
         reset_tb = 1;
-        #5
+        #1
         reset_tb = 0;
         // Simulación durante 2000 unidades de tiempo
         #2000;

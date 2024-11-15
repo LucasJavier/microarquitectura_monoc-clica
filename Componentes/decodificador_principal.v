@@ -11,6 +11,8 @@ module mainDeco(
     output reg [2:0] type_MD // Indica el tipo de instrucción
 );
 
+reg branch, jump;
+
 initial begin
     branch = 0;
     memWrite = 0; 
@@ -21,6 +23,7 @@ initial begin
     aluOp = 0;
     type_MD = 0;
     jump = 0;
+    pcSrc = 0;
 end
 
 always @(*) begin
