@@ -1,5 +1,5 @@
 `define generador_dumpfile(nombreArchivo) `"nombreArchivo.vcd`"
-`timescale 1ns / 1ps
+`timescale 1ns / 1ns
 
 module rv32i_tb();
 
@@ -35,7 +35,7 @@ module rv32i_tb();
         #1
         reset_tb = 0;
         // Simulación durante 2000 unidades de tiempo
-        #2000;
+        #165;
 
         $display("Fin de la simulación");
         $finish;

@@ -8,8 +8,8 @@ always @(*) begin
     case (type_SE)
         3'b000: inmExt = { {20{inst[31]}}, inst[31:20] }; // I-Type
         3'b001: inmExt = { {20{inst[31]}}, inst[31:25], inst[11:7] }; // S-Type
-        3'b011: inmExt = { {20{inst[31]}}, inst[31], inst[30:25], inst[11:8], inst[7] }; // B-Type
-        3'b100: inmExt = { {12{inst[31]}}, inst[31], inst[30:21], inst[20], inst[19:12] }; // J-Type
+        3'b011: inmExt = {{19{inst[31]}}, inst[31], inst[7], inst[30:25],inst[11:8], 1'b0};// B-Type
+        3'b100: inmExt = { {12{inst[31]}}, inst[19:12], inst[20], inst[30:21], 1'b0 }; // J-Type
         default: inmExt = 32'b0; // R-type
     endcase
 end

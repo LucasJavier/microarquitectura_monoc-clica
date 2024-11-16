@@ -22,8 +22,7 @@ initial begin
     memory[13] = 32'h01228863; // beq t0, s2, sal1 # si var == cte, sale del while
     memory[14] = 32'h005282b3; // add t0, t0, t0 # var = var + var
     memory[15] = 32'h00130313; // addi t1, t1, 1 # cuenta = cuenta + 1
-    // memory[16] = 32'hff5ff06f; // j while
-    memory[16] = 32'hfffdc06f;
+    memory[16] = 32'hff5ff06f; // j while
     memory[17] = 32'h000004b3; // add s1, zero, zero # var = 0, $s0
     memory[18] = 32'h00000293; // addi t0, zero, 0 # indice = 0, $t0
     memory[19] = 32'h00a00313; // addi t1, zero, 10 # veces = 10, $t1

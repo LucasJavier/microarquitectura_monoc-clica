@@ -23,7 +23,7 @@ assign rd1 = registers[a1];
 assign rd2 = registers[a2];
 
 always @(posedge clk or posedge reset_BR) begin
-    if (we)
+    if (we && a3!=5'b00000)
         registers[a3] <= wd3;
     if(reset_BR) begin
         for(i = 0;i<32;i=i+1) begin
